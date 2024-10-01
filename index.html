@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Game Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
     <style>
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background-color: rgb(9, 242, 242); /* Цвет фона изменен на azure */
+            background-color: rgb(50, 254, 254); /* Цвет фона изменен на azure */
         }
         .progress-container {
             width: 100%;
@@ -21,7 +22,7 @@
         .progress-bar {
             height: 20px; /* Высота индикатора прогресса */
             width: 0; /* Начальная ширина (0) */
-            background-color: #76c7c0; /* Цвет индикатора прогресса */
+            background-color: #651e1e; /* Цвет индикатора прогресса */
             transition: width 0.3s; /* Плавный переход для изменения ширины */
         }
         .button-container {
@@ -32,7 +33,7 @@
             display: flex;
             justify-content: space-around;
             padding: 10px;
-            background-color: rgb(0, 201, 220);
+            background-color: rgb(99, 199, 224);
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
         .nav-button {
@@ -64,7 +65,7 @@
 </head>
 
 <body>
-    <h1>Bello!</h1>
+    <h1>Welcome to the Game!</h1>
     
     <!-- Индикатор прогресса -->
     <div class="progress-container">
@@ -84,26 +85,12 @@
         <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-
-        // Ваша конфигурация Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDpgvGI2MsbO4R7tsvTFhkgaFIWXqRsZIE", // Замените на ваш API-ключ
-            authDomain: "mnstrs-c4bea.firebaseapp.com", // Замените на ваш проект ID
-            projectId: "mnstrs-c4bea", // Замените на ваш проект ID
-            storageBucket: "mnstrs-c4bea.appspot.com", // Замените на ваш проект ID
-            messagingSenderId: "437059669978", // Замените на ваш ID отправителя
-            appId: "1:437059669978:web:7580fc620b8c2dc7cdfae3" // Замените на ваш app ID
-        };
-
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+        // Инициализация Supabase
+        const { createClient } = supabase;
+        const supabaseUrl = 'https://pmujergqrtpzbowthaar.supabase.co'; // Замените на ваш Supabase URL
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdWplcmdxcnRwemJvd3RoYWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3OTQ5OTgsImV4cCI6MjA0MzM3MDk5OH0.7rKSsnLCuep6gwCYhpuszWl9NvX2sHKMWbh7xdcge84'; // Замените на ваш анонимный ключ
+        const supabase = createClient(supabaseUrl, supabaseKey);
 
         let clicks = 0;
         let level = 1;
@@ -143,7 +130,7 @@
             updateDisplay();
         }
 
-        // Обработка нажатия на кнопку
+        // Дергание картинки при клике
         clickButton.addEventListener('click', () => {
             // Дергаем картинку
             clickButton.style.transform = 'translateY(-5px)'; // Поднимаем картинку
@@ -165,31 +152,39 @@
 
         // Загрузка данных при загрузке страницы
         async function loadGameData() {
-            try {
-                const userCredential = await signInAnonymously(auth);
-                const user = userCredential.user;
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-                
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    clicks = data.clicks || 0;
-                    level = data.level || 1;
-                    clicksPerSecond = data.clicksPerSecond || 0;
-                    clicksNeededForNextLevel = Math.floor(100 * Math.pow(1.5, level - 1)); // Установка необходимости на основе уровня
-                    updateDisplay();
-                }
-            } catch (error) {
+            const { data: users, error } = await supabase
+                .from('users') // Замените на ваше имя таблицы
+                .select('*');
+
+            if (error) {
                 console.error("Error loading game data:", error);
+                return;
+            }
+
+            if (users.length > 0) { // Если есть данные
+                const user = users[0]; // Предполагаем, что данные одного пользователя
+                clicks = user.clicks || 0;
+                level = user.level || 1;
+                clicksPerSecond = user.clicksPerSecond || 0;
+                clicksNeededForNextLevel = Math.floor(100 * Math.pow(1.5, level - 1)); // Установка необходимости на основе уровня
+                updateDisplay();
             }
         }
 
-        // Сохранение данных в Firebase
+        // Сохранение данных в Supabase
         async function saveGameData() {
-            const user = auth.currentUser;
-            if (user) {
-                const docRef = doc(db, 'users', user.uid);
-                await setDoc(docRef, { clicks, level, clicksPerSecond });
+            const user = {
+                clicks,
+                level,
+                clicksPerSecond
+            };
+
+            const { error } = await supabase
+                .from('users') // Замените на ваше имя таблицы
+                .upsert(user); // Используем upsert для обновления или вставки
+
+            if (error) {
+                console.error("Error saving game data:", error);
             }
         }
 
@@ -199,5 +194,6 @@
 
 </body>
 </html>
+
 
 
