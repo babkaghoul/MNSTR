@@ -5,6 +5,7 @@
     justify-content: center;
     height: 100vh;
     touch-action: none;
+    overflow: auto;
   }
   
   .game-info {
@@ -30,7 +31,11 @@ body {
   
   background-image: url("C:/Users/bykon/Dekstop/click/images/fon.jpeg");
 
-  background-size: contain
+  background-size: contain;
+  overflow: hidden; /* Запретить прокрутку */
+  user-select: none; /* Запретить выделение текста */
+  touch-action: none; /* Отключить действие при касании */
+  
   
 
 
