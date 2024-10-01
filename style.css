@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    touch-action: none;
   }
   
   .game-info {
@@ -28,6 +29,8 @@
 body {
   
   background-image: url("c:\Users\bykon\Dekstop\click\fon.jpeg");
+
+  background-size: contain
 
 
 
