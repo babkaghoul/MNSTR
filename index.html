@@ -2,14 +2,31 @@
 <html>
 <head>
   <title>MNSTRS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", **user-scalable=no**>
   <style>
-    /* Стиль элемента */
+    body {
+    
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-image: url("images/fon.jpg"); /* Добавьте ссылку на ваше фоновое изображение */
+      background-size: cover; /* Масштабируйте фон, чтобы он покрывал всю область */
+      background-repeat: no-repeat; /* Запретите повторение фона */
+    }
+
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 3em;
+      color: #333;
     }
 
     .game-info {
@@ -18,7 +35,7 @@
     }
 
     .game-info div {
-      margin-right: 20px;
+      margin-right: 15px;
     }
 
     button {
@@ -31,8 +48,27 @@
       cursor: pointer;
     }
 
-    #click-button { /* Добавьте стили для изображения */
-      cursor: pointer; 
+    #click-button {
+      cursor: pointer;
+      width: 150px; /* Измените размер изображения */
+      height: 150px; /* Измените размер изображения */
+    }
+
+    @media (max-width: 768px) {
+      .game-info {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .game-info div {
+        margin-bottom: 10px;
+        margin-right: 0;
+      }
+
+      #click-button {
+        width: 100px; /* Измените размер изображения для мобильных */
+        height: 100px; /* Измените размер изображения для мобильных */
+      }
     }
   </style>
 </head>
@@ -117,53 +153,47 @@
           });
           console.log("Data saved to Firebase!");
         } catch (error) {
-          console.error("Error writing document:", error);
+          console.error("Error saving document:", error);
         }
       });
     }
 
-    clickButton.addEventListener('click', () => {
-      clicks++;
-      updateDisplay();
-      checkLevelUp();
-      saveGameData();
-    });
-
-    buyCpsButton.addEventListener('click', () => {
-      if (clicks >= 10) {
-        clicks -= 10;
-        clicksPerSecond++;
-        updateDisplay();
-        saveGameData();
-      } else {
-        alert("Not enough clicks to buy clicks per second!");
-      }
-    });
-
-    function checkLevelUp() {
-      if (clicks >= level * 10) {
-        level++;
-        updateDisplay();
-        alert("Congratulations! You leveled up to level " + level + "!");
-      }
-    }
-
+    // Обновление отображения игры
     function updateDisplay() {
       levelSpan.textContent = level;
       clicksSpan.textContent = clicks;
       cpsSpan.textContent = clicksPerSecond;
     }
 
-    // Simulate clicks per second
+    // Обработка нажатия на кнопку
+    clickButton.addEventListener('click', () => {
+      clicks++;
+      updateDisplay();
+      saveGameData();
+    });
+
+    // Обработка покупки TPS
+    buyCpsButton.addEventListener('click', () => {
+      if (clicks >= 10) {
+        clicks -= 10;
+        clicksPerSecond++;
+        level++;
+        updateDisplay();
+        saveGameData();
+      } else {
+        alert('Недостаточно кликов!');
+      }
+    });
+
+    // Обновление количества кликов в секунду
     setInterval(() => {
       clicks += clicksPerSecond;
       updateDisplay();
-      saveGameData(); // Сохраняем каждые 1000 мс
-    }, 1000); 
+      saveGameData();
+    }, 1000);
 
-    // Загрузка данных при запуске игры
+    // Загрузка данных при загрузке страницы
     loadGameData();
-
   </script>
 </body>
 </html>
