@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no"> <!-- Отключение масштабирования -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no">
     <title>Game Page</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
     <style>
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background-color: azure; /* Цвет фона изменен на azure */
+            background-color: azure;
         }
+
         .progress-container {
             width: 100%;
-            background-color: #e0e0e0; /* Цвет фона для контейнера прогресса */
+            background-color: #e0e0e0;
             border-radius: 5px;
             overflow: hidden;
-            margin: 20px 0; /* Отступ сверху и снизу */
+            margin: 20px 0;
         }
+
         .progress-bar {
-            height: 20px; /* Высота индикатора прогресса */
-            width: 0; /* Начальная ширина (0) */
-            background-color: #76c7c0; /* Цвет индикатора прогресса */
-            transition: width 0.3s; /* Плавный переход для изменения ширины */
+            height: 20px;
+            width: 0;
+            background-color: #76c7c0;
+            transition: width 0.3s;
         }
+
         .button-container {
             position: fixed;
             bottom: 0;
@@ -36,6 +37,7 @@
             background-color: white;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .nav-button {
             background-color: black;
             color: white;
@@ -48,26 +50,27 @@
             transition: background-color 0.3s;
             font-size: 16px;
         }
+
         .nav-button:hover {
             background-color: #333;
         }
+
         .game-info {
             text-align: center;
             margin: 50px 0;
         }
+
         #click-button {
             width: 150px;
             height: 150px;
             cursor: pointer;
-            transition: transform 0.1s; /* Добавление эффекта при клике */
+            transition: transform 0.1s;
         }
     </style>
 </head>
-
 <body>
     <h1>Bello!</h1>
-    
-    <!-- Индикатор прогресса -->
+
     <div class="progress-container">
         <div class="progress-bar" id="progress-bar"></div>
     </div>
@@ -76,7 +79,7 @@
         <div class="level">Level: <span id="level">1</span></div>
         <div class="clicks">Tap: <span id="clicks">0</span></div>
         <div class="cps">TPS: <span id="cps">0</span></div>
-        <img id="click-button" src="mnstr.png.png" alt="Click Me"> <!-- Убедитесь, что путь правильный -->
+        <img id="click-button" src="mnstr.png" alt="Click Me">
     </div>
 
     <div class="button-container">
@@ -85,17 +88,11 @@
         <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
     </div>
 
-    <script type="module">
-        // Инициализация Supabase
-        const { createClient } = supabase;
-        const supabaseUrl = 'https://pmujergqrtpzbowthaar.supabase.co'; // Замените на ваш Supabase URL
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdWplcmdxcnRwemJvd3RoYWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3OTQ5OTgsImV4cCI6MjA0MzM3MDk5OH0.7rKSsnLCuep6gwCYhpuszWl9NvX2sHKMWbh7xdcge84'; // Замените на ваш анонимный ключ
-        const supabase = createClient(supabaseUrl, supabaseKey);
-
+    <script>
         let clicks = 0;
         let level = 1;
         let clicksPerSecond = 0;
-        let clicksNeededForNextLevel = 100; // Количество кликов, необходимое для следующего уровня
+        let clicksNeededForNextLevel = 100;
 
         const clickButton = document.getElementById('click-button');
         const levelSpan = document.getElementById('level');
@@ -103,7 +100,7 @@
         const cpsSpan = document.getElementById('cps');
         const progressBar = document.getElementById('progress-bar');
 
-        // Обновление отображения информации
+        // Обновление дисплея
         function updateDisplay() {
             levelSpan.textContent = level;
             clicksSpan.textContent = clicks;
@@ -111,96 +108,46 @@
             updateProgressBar();
         }
 
-        // Обновление индикатора прогресса
+        // Обновление прогресс-бара
         function updateProgressBar() {
-            const progressPercentage = (clicks / clicksNeededForNextLevel) * 100; // Расчет процента
-            progressBar.style.width = `${Math.min(progressPercentage, 100)}%`; // Обновление ширины индикатора
+            const progressPercentage = (clicks / clicksNeededForNextLevel) * 100;
+            progressBar.style.width = `${Math.min(progressPercentage, 100)}%`;
 
-            // Проверка, достигнуто ли следующее достижение уровня
             if (clicks >= clicksNeededForNextLevel) {
                 levelUp();
             }
         }
 
-        // Увеличение уровня
         function levelUp() {
             level++;
-            clicksNeededForNextLevel = Math.floor(clicksNeededForNextLevel * 1.5); // Увеличение необходимого количества кликов в 1,5 раза
-            clicks = 0; // Сброс кликов после получения уровня
+            clicksNeededForNextLevel = Math.floor(clicksNeededForNextLevel * 1.5);
+            clicks = 0;
             updateDisplay();
         }
 
-        // Дергание картинки при клике
+        // Обработчик клика
         clickButton.addEventListener('click', (event) => {
-            event.preventDefault(); // Предотвращение стандартного действия
+            event.preventDefault();
 
-            // Дергаем картинку
-            clickButton.style.transform = 'translateY(-5px)'; // Поднимаем картинку
+            // Эффект нажатия
+            clickButton.style.transform = 'scale(0.9)';
             setTimeout(() => {
-                clickButton.style.transform = 'translateY(0)'; // Возвращаем на место
-            }, 100); // 100 мс поднимаем и опускаем картинку
+                clickButton.style.transform = 'scale(1)';
+            }, 100);
 
             clicks++;
             updateDisplay();
-            saveGameData();
         });
 
-        // Обновление количества кликов в секунду и автоматическое сохранение
+        // Обновление кликов в секунду
         setInterval(() => {
             clicks += clicksPerSecond;
             updateDisplay();
-            saveGameData();
         }, 1000);
 
-        // Загрузка данных при загрузке страницы
-        async function loadGameData() {
-            const { data: users, error } = await supabase
-                .from('users') // Замените на ваше имя таблицы
-                .select('*');
-
-            if (error) {
-                console.error("Error loading game data:", error);
-                return;
-            }
-
-            if (users.length > 0) { // Если есть данные
-                const user = users[0]; // Предполагаем, что данные одного пользователя
-                clicks = user.clicks || 0;
-                level = user.level || 1;
-                clicksPerSecond = user.clicksPerSecond || 0;
-                clicksNeededForNextLevel = Math.floor(100 * Math.pow(1.5, level - 1)); // Установка необходимости на основе уровня
-                updateDisplay();
-            }
-        }
-
-        // Сохранение данных в Supabase
-        async function saveGameData() {
-            const user = {
-                clicks,
-                level,
-                clicksPerSecond
-            };
-
-            const { error } = await supabase
-                .from('users') // Замените на ваше имя таблицы
-                .upsert(user); // Используем upsert для обновления или вставки
-
-            if (error) {
-                console.error("Error saving game data:", error);
-            }
-        }
-
-        // Предотвращение масштабирования
         document.addEventListener('touchmove', (event) => {
-            event.preventDefault(); // Предотвращаем стандартное поведение (например, прокрутку)
+            event.preventDefault();
         }, { passive: false });
-
-        // Подгрузка данных при открытии страницы
-        loadGameData();
     </script>
-
 </body>
 </html>
-
-
-

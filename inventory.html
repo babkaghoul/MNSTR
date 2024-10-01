@@ -1,230 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Мета-тег для адаптивного дизайна -->
-    <title>Inventory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no">
+    <title>Инвентарь</title>
     <style>
         body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            overflow: hidden; /* Блокируем прокрутку всего body */
-        }
-
-        .tab {
-            overflow: hidden;
-            background-color: #ccc; /* Цвет фона для табов */
-            display: flex; /* Используем flex для кнопок табов */
-            justify-content: space-around; /* Разделяем кнопки равномерно */
-            padding: 10px;
-        }
-
-        .tab button {
-            background-color: inherit;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 15px 20px;
-            transition: background-color 0.3s;
-            font-size: 16px; /* Размер шрифта */
-        }
-
-        .tab button:hover {
-            background-color: #ddd;
-        }
-
-        .tab button.active {
-            background-color: #aaa; /* Подсветка активной вкладки */
-        }
-
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin: 10px;
-            text-align: center;
-            width: 120px; /* Ширина карточек */
-            border: 1px solid #ccc;
-            display: inline-block;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0; /* Светлый фон */
         }
 
         .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+            gap: 5px; /* Уменьшено расстояние между рядами */
+            width: 80%; /* Ширина контейнера карточек */
+            flex-grow: 1; /* Занимает всё доступное пространство */
+            align-self: center; /* Центрирование контейнера карточек */
+            padding: 10px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 2px solid #9b59b6; /* Фиолетовая рамка */
+            border-radius: 10px; /* Закругленные углы */
+            width: calc(100% - 10px); /* Ширина карточек занимает 100% ячейки с учетом боковых отступов */
+            height: 650px; /* Высота карточек, вытянуты вниз */
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* Центрируем карточки */
-            padding: 20px;
-            max-height: calc(100vh - 100px); /* Ограничение высоты для прокрутки */
-            overflow-y: auto; /* Добавляем прокрутку для контейнера карточек */
+            flex-direction: column; /* Вертикальное расположение элементов */
+            justify-content: center; /* Центрирование элементов по вертикали */
+            padding: 10px; /* Отступы внутри карточки */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Легкая тень */
+            text-align: center; /* Центрируем текст */
         }
 
-        .back-button {
-            position: fixed; /* Закрепить кнопку */
-            bottom: 20px; /* Отступ от нижней части экрана */
-            left: 20px; /* Установить отступ слева */
-            padding: 20px 30px; /* Увеличенные отступы */
-            background-color: black; /* Черный цвет фона */
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            z-index: 1000; /* Кнопка выше других элементов */
-            font-size: 20px; /* Увеличенный размер шрифта */
-            border-radius: 5px; /* Скругленные углы */
-        }
-
-        .back-button:hover {
-            background-color: #333; /* Более темный оттенок черного при наведении */
-        }
-
-        /* Адаптивные стили */
-        @media (max-width: 600px) {
-            .tab button {
-                font-size: 14px; /* Размер шрифта */
-            }
-
-            .back-button {
-                padding: 15px 20px; /* Уменьшаем отступы */
-                font-size: 18px; /* Размер шрифта */
-            }
-
-            .card {
-                width: 100px; /* Уменьшаем ширину карточек для мобильных устройств */
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="tab">
-        <button class="tablinks active" onclick="openTab(event, 'tab1')">Cards</button>
-        <button class="tablinks" onclick="openTab(event, 'tab2')">Settings</button>
-    </div>
-
-    <div id="tab1" class="tabcontent" style="display: block;">
-        <div class="cards-container">
-            <div class="card">
-                <h4>Card 1</h4>
-                <p>Description for Card 1</p>
-            </div>
-            <div class="card">
-                <h4>Card 2</h4>
-                <p>Description for Card 2</p>
-            </div>
-            <div class="card">
-                <h4>Card 3</h4>
-                <p>Description for Card 3</p>
-            </div>
-            <div class="card">
-                <h4>Card 4</h4>
-                <p>Description for Card 4</p>
-            </div>
-            <div class="card">
-                <h4>Card 5</h4>
-                <p>Description for Card 5</p>
-            </div>
-            <div class="card">
-                <h4>Card 6</h4>
-                <p>Description for Card 6</p>
-            </div>
-            <!-- Добавьте больше карточек по желанию -->
-        </div>
-    </div>
-
-    <div id="tab2" class="tabcontent" style="display: none;">
-        <h3>Settings Content</h3>
-        <p>This is the content of the settings tab.</p>
-    </div>
-
-
-
-    <script>
-        function openTab(evt, tabName) {
-            // Скрыть все табcontent
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-
-            // Удалить класс "active" у всех табов
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-
-            // Показать активный таб и добавить класс "active"
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        function goBack() {
-            // Перенаправление на index.html
-            window.location.href = "index.html";
-        }
-    </script>
-
-<head></head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Page Title</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0; 
+        .card-title {
+            font-size: 20px; /* Размер названия карты */
+            font-weight: bold; /* Жирный шрифт */
+            color: #9b59b6; /* Фиолетовый цвет для заголовка */
         }
 
         .button-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
             display: flex;
-            justify-content: space-around; /* Равномерное распределение кнопок */
-            padding: 10px; /* Отступы от края */
-            background-color: white; /* Цвет фона для кнопок */
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Тень для кнопок */
+            justify-content: space-around;
+            width: 100%;
+            padding: 10px;
+            background-color: #000; /* Черный фон для кнопок */
+            position: absolute; /* Кнопки внизу экрана */
+            bottom: 0; /* Прикрепить к нижней части */
         }
 
         .nav-button {
-            background-color: black; /* Черный цвет фона */
-            color: white;
+            background-color: #000; /* Черный цвет кнопки */
+            color: white; /* Белый текст */
             border: none;
-            padding: 15px 20px; /* Наполнение кнопок */
+            padding: 10px 15px;
             cursor: pointer;
-            flex-grow: 1; /* Кнопки занимают равное пространство */
-            margin: 0 5px; /* Отступы между кнопками */
-            border-radius: 5px; /* Скругленные углы */
-            transition: background-color 0.3s; /* Плавный переход */
-            font-size: 16px; /* Размер шрифта */
+            flex-grow: 1;
+            margin: 0 5px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
 
         .nav-button:hover {
-            background-color: #333; /* Цвет фона при наведении */
+            background-color: #333; /* Темный оттенок при наведении */
         }
     </style>
 </head>
-
 <body>
-
-    <!-- Основное содержимое страницы идет здесь -->
+    <div class="cards-container">
+        <div class="card" onclick="handleCardClick(1)">
+            <div class="card-title">Карта 1</div>
+        </div>
+        <div class="card" onclick="handleCardClick(2)">
+            <div class="card-title">Карта 2</div>
+        </div>
+        <div class="card" onclick="handleCardClick(3)">
+            <div class="card-title">Карта 3</div>
+        </div>
+        <div class="card" onclick="handleCardClick(4)">
+            <div class="card-title">Карта 4</div>
+        </div>
+        <div class="card" onclick="handleCardClick(5)">
+            <div class="card-title">Карта 5</div>
+        </div>
+        <div class="card" onclick="handleCardClick(6)">
+            <div class="card-title">Карта 6</div>
+        </div>
+    </div>
 
     <div class="button-container">
-        <button class="nav-button" onclick="window.location.href='index.html'">Main Menu</button>
+        <button class="nav-button" onclick="window.location.href='index.html'">Main menu</button>
         <button class="nav-button" onclick="window.location.href='inventory.html'">Inventory</button>
         <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
     </div>
 
+    <script>
+        // Обработчик клика по карточкам
+        function handleCardClick(cardNumber) {
+            console.log(`Карта ${cardNumber} нажата!`);
+            // Логика обработки клика по карточке
+        }
+    </script>
 </body>
-
-
-
-</body>
-
 </html>
-
 
