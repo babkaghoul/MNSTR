@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Inventory</title>
     <style>
@@ -15,7 +16,7 @@
             border: none;
             outline: none;
             cursor: pointer;
-            padding: 10px 12px;
+            padding: 8px 10px;
             transition: 0.3s;
         }
 
@@ -33,40 +34,70 @@
             border: 1px solid #ccc;
             border-top: none;
         }
+
+        .back-button {
+            position: fixed; /* Закрепить кнопку */
+            bottom: 20px;  /* Отступ от нижней части экрана */
+            left: 50%;      /* Центровка кнопки по горизонтали */
+            transform: translateX(-50%); /* Центруем кнопки относительно ширины */
+            padding: 10px 15px;
+            background-color: black;  /* Черный цвет фона */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1000; /* Убедитесь, что кнопка выше других элементов */
+        }
+
+        .back-button:hover {
+            background-color: #333;  /* Более темный оттенок черного при наведении */
+        }
     </style>
 </head>
+
 <body>
 
-<div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'tab1')">Tab 1</button>
-    <button class="tablinks" onclick="openTab(event, 'tab2')">Tab 2</button>
-</div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'tab1')">Tab 1</button>
+        <button class="tablinks" onclick="openTab(event, 'tab2')">Tab 2</button>
+    </div>
 
-<div id="tab1" class="tabcontent">
-    <h3>Tab 1 Content</h3>
-    <p>This is the content of tab 1.</p>
-</div>
+    <div id="tab1" class="tabcontent">
+        <h3>Tab 1 Content</h3>
+        <p>This is the content of tab 1.</p>
+    </div>
 
-<div id="tab2" class="tabcontent">
-    <h3>Tab 2 Content</h3>
-    <p>This is the content of tab 2.</p>
-</div>
+    <div id="tab2" class="tabcontent">
+        <h3>Tab 2 Content</h3>
+        <p>This is the content of tab 2.</p>
+    </div>
 
-<script>
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
+    <!-- Кнопка возврата на index.html -->
+    <button class="back-button" onclick="goBack()">Back to Menu</button>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
         }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
+
+        function goBack() {
+            // Перенаправление на index.html
+            window.location.href = "index.html";
         }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-</script>
+    </script>
 
 </body>
 </html>
+
