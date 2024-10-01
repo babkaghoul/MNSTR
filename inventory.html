@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Мета-тег для адаптивного дизайна -->
     <title>Inventory</title>
     <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Блокируем прокрутку всего body */
+        }
+
         .tab {
             overflow: hidden;
             border: 1px solid #ccc;
             background-color: #f1f1f1;
+            display: flex; /* Используем flex для кнопок табов */
+            justify-content: space-around; /* Разделяем кнопки равномерно */
         }
 
         .tab button {
             background-color: inherit;
-            float: left;
             border: none;
             outline: none;
             cursor: pointer;
-            padding: 8px 10px;
-            transition: 0.3s;
+            padding: 10px 15px;
+            flex-grow: 1; /* Заставляем кнопки занимать одинаковое пространство */
+            transition: background-color 0.3s;
         }
 
         .tab button:hover {
@@ -30,27 +40,42 @@
 
         .tabcontent {
             display: none;
-            padding: 6px 12px;
+            padding: 10px;
             border: 1px solid #ccc;
             border-top: none;
+            background-color: white;
         }
 
         .back-button {
             position: fixed; /* Закрепить кнопку */
-            bottom: 20px;  /* Отступ от нижней части экрана */
-            left: 50%;      /* Центровка кнопки по горизонтали */
-            transform: translateX(-50%); /* Центруем кнопки относительно ширины */
-            padding: 10px 15px;
-            background-color: black;  /* Черный цвет фона */
+            bottom: 20px; /* Отступ от нижней части экрана */
+            left: 20px; /* Установить отступ слева */
+            padding: 20px 30px; /* Увеличенные отступы */
+            background-color: black; /* Черный цвет фона */
             color: white;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
-            z-index: 1000; /* Убедитесь, что кнопка выше других элементов */
+            z-index: 1000; /* Кнопка выше других элементов */
+            font-size: 20px; /* Увеличенный размер шрифта */
+            border-radius: 5px; /* Скругленные углы */
         }
 
         .back-button:hover {
-            background-color: #333;  /* Более темный оттенок черного при наведении */
+            background-color: #333; /* Более темный оттенок черного при наведении */
+        }
+
+        /* Адаптивные стили */
+        @media (max-width: 600px) {
+            .tab button {
+                padding: 12px; /* Увеличиваем отступ в мобильной версии */
+                font-size: 14px; /* Меняем размер шрифта */
+            }
+
+            .back-button {
+                padding: 20px 30px; /* Увеличенные отступы */
+                font-size: 20px; /* Размер шрифта */
+            }
         }
     </style>
 </head>
@@ -99,5 +124,6 @@
     </script>
 
 </body>
+
 </html>
 
