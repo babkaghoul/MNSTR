@@ -139,8 +139,7 @@
         <p>This is the content of the settings tab.</p>
     </div>
 
-    <!-- Кнопка возврата на index.html -->
-    <button class="back-button" onclick="goBack()">Back to Menu</button>
+
 
     <script>
         function openTab(evt, tabName) {
@@ -167,6 +166,62 @@
             window.location.href = "index.html";
         }
     </script>
+
+<head></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Page Title</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0; 
+        }
+
+        .button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around; /* Равномерное распределение кнопок */
+            padding: 10px; /* Отступы от края */
+            background-color: white; /* Цвет фона для кнопок */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Тень для кнопок */
+        }
+
+        .nav-button {
+            background-color: black; /* Черный цвет фона */
+            color: white;
+            border: none;
+            padding: 15px 20px; /* Наполнение кнопок */
+            cursor: pointer;
+            flex-grow: 1; /* Кнопки занимают равное пространство */
+            margin: 0 5px; /* Отступы между кнопками */
+            border-radius: 5px; /* Скругленные углы */
+            transition: background-color 0.3s; /* Плавный переход */
+            font-size: 16px; /* Размер шрифта */
+        }
+
+        .nav-button:hover {
+            background-color: #333; /* Цвет фона при наведении */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Основное содержимое страницы идет здесь -->
+
+    <div class="button-container">
+        <button class="nav-button" onclick="window.location.href='index.html'">Main Menu</button>
+        <button class="nav-button" onclick="window.location.href='inventory.html'">Inventory</button>
+        <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
+    </div>
+
+</body>
+
+
 
 </body>
 

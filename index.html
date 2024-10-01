@@ -1,212 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>MNSTRS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0", 
-  >
-  <button onclick="redirect()">Inventory</button>
-
-<script>
-    function redirect() {
-        window.location.href = "inventory.html";
-    }
-</script>
-
-  <style>
-    
-    body {
-    
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background-color: cyan;
-      background-size: cover; /* Масштабируйте фон, чтобы он покрывал всю область */
-      background-repeat: no-repeat; /* Запретите повторение фона */
-      background-attachment: fixed;
-       
-        touch-action: none;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      font-size: 3em;
-      color: #333;
-    }
-
-    .game-info {
-      display: flex;
-      margin-bottom: 20px;
-    }
-
-    .game-info div {
-      margin-right: 15px;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      background-color: #010101;
-      color: rgb(255, 255, 255);
-      cursor: pointer;
-    }
-
-    #click-button {
-      cursor: pointer;
-      width: 150px; /* Измените размер изображения */
-      height: 150px; /* Измените размер изображения */
-    }
-
-    @media (max-width: 768px) {
-      .game-info {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .game-info div {
-        margin-bottom: 10px;
-        margin-right: 0;
-      }
-
-      #click-button {
-        width: 100px; /* Измените размер изображения для мобильных */
-        height: 100px; /* Измените размер изображения для мобильных */
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Game Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: rgb(9, 242, 242); /* Цвет фона изменен на azure */
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0; /* Цвет фона для контейнера прогресса */
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0; /* Отступ сверху и снизу */
+        }
+        .progress-bar {
+            height: 20px; /* Высота индикатора прогресса */
+            width: 0; /* Начальная ширина (0) */
+            background-color: #76c7c0; /* Цвет индикатора прогресса */
+            transition: width 0.3s; /* Плавный переход для изменения ширины */
+        }
+        .button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: rgb(0, 201, 220);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .nav-button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            flex-grow: 1;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        .nav-button:hover {
+            background-color: #333;
+        }
+        .game-info {
+            text-align: center;
+            margin: 50px 0;
+        }
+        #click-button {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            transition: transform 0.1s; /* Добавление эффекта при клике */
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>MNSTRS</h1>
-    <div class="game-info">
-      <div class="level">Level: <span id="level">1</span></div>
-      <div class="clicks">Tap: <span id="clicks">0</span></div>
-      <div class="cps">TPS: <span id="cps">0</span></div>
+    <h1>Bello!</h1>
+    
+    <!-- Индикатор прогресса -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
     </div>
-    <img id="click-button" src="mnstr.png.png" alt="Click Me"> 
-    <button id="buy-cps-button">Buy TPS (10 clicks)</button>
-  </div>
 
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+    <div class="game-info">
+        <div class="level">Level: <span id="level">1</span></div>
+        <div class="clicks">Tap: <span id="clicks">0</span></div>
+        <div class="cps">TPS: <span id="cps">0</span></div>
+        <img id="click-button" src="mnstr.png.png" alt="Click Me"> <!-- Убедитесь, что путь правильный -->
+    </div>
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDpgvGI2MsbO4R7tsvTFhkgaFIWXqRsZIE", // Замените на ваш API-ключ
-      authDomain: "mnstrs-c4bea.firebaseapp.com", // Замените на ваш проект ID
-      projectId: "mnstrs-c4bea", // Замените на ваш проект ID
-      storageBucket: "mnstrs-c4bea.appspot.com ", // Замените на ваш проект ID
-      messagingSenderId: "437059669978", // Замените на ваш идентификатор отправителя сообщений
-      appId: "1:437059669978:web:7580fc620b8c2dc7cdfae3", // Замените на ваш идентификатор приложения
-      measurementId: "G-S7YZFR0HJK" // Замените на ваш идентификатор измерения
-    };
+    <div class="button-container">
+        <button class="nav-button" onclick="window.location.href='index.html'">Main Menu</button>
+        <button class="nav-button" onclick="window.location.href='inventory.html'">Inventory</button>
+        <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
+    </div>
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-    let clicks = 0;
-    let level = 1;
-    let clicksPerSecond = 0;
-    const clickButton = document.getElementById('click-button');
-    const buyCpsButton = document.getElementById('buy-cps-button');
-    const levelSpan = document.getElementById('level');
-    const clicksSpan = document.getElementById('clicks');
-    const cpsSpan = document.getElementById('cps');
+        // Ваша конфигурация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpgvGI2MsbO4R7tsvTFhkgaFIWXqRsZIE", // Замените на ваш API-ключ
+            authDomain: "mnstrs-c4bea.firebaseapp.com", // Замените на ваш проект ID
+            projectId: "mnstrs-c4bea", // Замените на ваш проект ID
+            storageBucket: "mnstrs-c4bea.appspot.com", // Замените на ваш проект ID
+            messagingSenderId: "437059669978", // Замените на ваш ID отправителя
+            appId: "1:437059669978:web:7580fc620b8c2dc7cdfae3" // Замените на ваш app ID
+        };
 
-    // Загрузка данных из Firebase
-    async function loadGameData() {
-      signInAnonymously(auth).then(async (userCredential) => {
-        const user = userCredential.user;
-        console.log("Signed in with anonymous user:", user);
-        const docRef = doc(db, 'users', user.uid);
 
-        try {
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            clicks = data.clicks || 0;
-            level = data.level || 1;
-            clicksPerSecond = data.clicksPerSecond || 0;
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let clicks = 0;
+        let level = 1;
+        let clicksPerSecond = 0;
+        let clicksNeededForNextLevel = 100; // Количество кликов, необходимое для следующего уровня
+
+        const clickButton = document.getElementById('click-button');
+        const levelSpan = document.getElementById('level');
+        const clicksSpan = document.getElementById('clicks');
+        const cpsSpan = document.getElementById('cps');
+        const progressBar = document.getElementById('progress-bar');
+
+        // Обновление отображения информации
+        function updateDisplay() {
+            levelSpan.textContent = level;
+            clicksSpan.textContent = clicks;
+            cpsSpan.textContent = clicksPerSecond;
+            updateProgressBar();
+        }
+
+        // Обновление индикатора прогресса
+        function updateProgressBar() {
+            const progressPercentage = (clicks / clicksNeededForNextLevel) * 100; // Расчет процента
+            progressBar.style.width = `${Math.min(progressPercentage, 100)}%`; // Обновление ширины индикатора
+
+            // Проверка, достигнуто ли следующее достижение уровня
+            if (clicks >= clicksNeededForNextLevel) {
+                levelUp();
+            }
+        }
+
+        // Увеличение уровня
+        function levelUp() {
+            level++;
+            clicksNeededForNextLevel = Math.floor(clicksNeededForNextLevel * 1.5); // Увеличение необходимого количества кликов в 1,5 раза
+            clicks = 0; // Сброс кликов после получения уровня
             updateDisplay();
-          }
-        } catch (error) {
-          console.error("Error getting document:", error);
         }
-      });
-    }
 
-    // Сохранение данных в Firebase
-    async function saveGameData() {
-      signInAnonymously(auth).then(async (userCredential) => {
-        const user = userCredential.user;
-        const docRef = doc(db, 'users', user.uid);
+        // Обработка нажатия на кнопку
+        clickButton.addEventListener('click', () => {
+            // Дергаем картинку
+            clickButton.style.transform = 'translateY(-5px)'; // Поднимаем картинку
+            setTimeout(() => {
+                clickButton.style.transform = 'translateY(0)'; // Возвращаем на место
+            }, 100); // 100 мс поднимаем и опускаем картинку
 
-        try {
-          await setDoc(docRef, {
-            clicks: clicks,
-            level: level,
-            clicksPerSecond: clicksPerSecond
-          });
-          console.log("Data saved to Firebase!");
-        } catch (error) {
-          console.error("Error saving document:", error);
+            clicks++;
+            updateDisplay();
+            saveGameData();
+        });
+
+        // Обновление количества кликов в секунду и автоматическое сохранение
+        setInterval(() => {
+            clicks += clicksPerSecond;
+            updateDisplay();
+            saveGameData();
+        }, 1000);
+
+        // Загрузка данных при загрузке страницы
+        async function loadGameData() {
+            try {
+                const userCredential = await signInAnonymously(auth);
+                const user = userCredential.user;
+                const docRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    clicks = data.clicks || 0;
+                    level = data.level || 1;
+                    clicksPerSecond = data.clicksPerSecond || 0;
+                    clicksNeededForNextLevel = Math.floor(100 * Math.pow(1.5, level - 1)); // Установка необходимости на основе уровня
+                    updateDisplay();
+                }
+            } catch (error) {
+                console.error("Error loading game data:", error);
+            }
         }
-      });
-    }
 
-    // Обновление отображения игры
-    function updateDisplay() {
-      levelSpan.textContent = level;
-      clicksSpan.textContent = clicks;
-      cpsSpan.textContent = clicksPerSecond;
-    }
+        // Сохранение данных в Firebase
+        async function saveGameData() {
+            const user = auth.currentUser;
+            if (user) {
+                const docRef = doc(db, 'users', user.uid);
+                await setDoc(docRef, { clicks, level, clicksPerSecond });
+            }
+        }
 
-    // Обработка нажатия на кнопку
-    clickButton.addEventListener('click', () => {
-      clicks++;
-      updateDisplay();
-      saveGameData();
-    });
+        // Подгрузка данных при открытии страницы
+        loadGameData();
+    </script>
 
-    // Обработка покупки TPS
-    buyCpsButton.addEventListener('click', () => {
-      if (clicks >= 10) {
-        clicks -= 10;
-        clicksPerSecond++;
-        level++;
-        updateDisplay();
-        saveGameData();
-      } else {
-        alert('Недостаточно кликов!');
-      }
-    });
-
-    // Обновление количества кликов в секунду
-    setInterval(() => {
-      clicks += clicksPerSecond;
-      updateDisplay();
-      saveGameData();
-    }, 1000);
-
-    // Загрузка данных при загрузке страницы
-    loadGameData();
-  </script>
 </body>
 </html>
+
+
