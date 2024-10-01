@@ -46,7 +46,7 @@ public class Clicker {
     }
 
     private static void buyClicksPerSecond() {
-        if (clicks >= 11) { // Example price for buying clicks per second
+        if (clicks >= 10) { // Example price for buying clicks per second
             clicks -= 10;
             clicksPerSecond++;
             System.out.println("You bought 1 click per second! Your clicks per second: " + clicksPerSecond);

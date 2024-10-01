@@ -4,8 +4,6 @@
   <title>MNSTRS</title>
   <style>
     /* Стиль элемента */
-    
-    
     .container {
       display: flex;
       flex-direction: column;
@@ -28,9 +26,13 @@
       font-size: 16px;
       border: none;
       border-radius: 5px;
-      background-color: #960000; 
+      background-color: #010101;
       color: rgb(255, 255, 255);
       cursor: pointer;
+    }
+
+    #click-button { /* Добавьте стили для изображения */
+      cursor: pointer; 
     }
   </style>
 </head>
@@ -42,25 +44,89 @@
       <div class="clicks">Tap: <span id="clicks">0</span></div>
       <div class="cps">TPS: <span id="cps">0</span></div>
     </div>
-    <button id="click-button">Tap</button>
+    <img id="click-button" src="mnstr.png.png" alt="Click Me"> 
     <button id="buy-cps-button">Buy TPS (10 clicks)</button>
   </div>
 
-  <script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDpgvGI2MsbO4R7tsvTFhkgaFIWXqRsZIE", // Замените на ваш API-ключ
+      authDomain: "mnstrs-c4bea.firebaseapp.com", // Замените на ваш проект ID
+      projectId: "mnstrs-c4bea", // Замените на ваш проект ID
+      storageBucket: "mnstrs-c4bea.appspot.com ", // Замените на ваш проект ID
+      messagingSenderId: "437059669978", // Замените на ваш идентификатор отправителя сообщений
+      appId: "1:437059669978:web:7580fc620b8c2dc7cdfae3", // Замените на ваш идентификатор приложения
+      measurementId: "G-S7YZFR0HJK" // Замените на ваш идентификатор измерения
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
     let clicks = 0;
     let level = 1;
     let clicksPerSecond = 0;
-
     const clickButton = document.getElementById('click-button');
     const buyCpsButton = document.getElementById('buy-cps-button');
     const levelSpan = document.getElementById('level');
     const clicksSpan = document.getElementById('clicks');
     const cpsSpan = document.getElementById('cps');
 
+    // Загрузка данных из Firebase
+    async function loadGameData() {
+      signInAnonymously(auth).then(async (userCredential) => {
+        const user = userCredential.user;
+        console.log("Signed in with anonymous user:", user);
+        const docRef = doc(db, 'users', user.uid);
+
+        try {
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            clicks = data.clicks || 0;
+            level = data.level || 1;
+            clicksPerSecond = data.clicksPerSecond || 0;
+            updateDisplay();
+          }
+        } catch (error) {
+          console.error("Error getting document:", error);
+        }
+      });
+    }
+
+    // Сохранение данных в Firebase
+    async function saveGameData() {
+      signInAnonymously(auth).then(async (userCredential) => {
+        const user = userCredential.user;
+        const docRef = doc(db, 'users', user.uid);
+
+        try {
+          await setDoc(docRef, {
+            clicks: clicks,
+            level: level,
+            clicksPerSecond: clicksPerSecond
+          });
+          console.log("Data saved to Firebase!");
+        } catch (error) {
+          console.error("Error writing document:", error);
+        }
+      });
+    }
+
     clickButton.addEventListener('click', () => {
       clicks++;
       updateDisplay();
       checkLevelUp();
+      saveGameData();
     });
 
     buyCpsButton.addEventListener('click', () => {
@@ -68,6 +134,7 @@
         clicks -= 10;
         clicksPerSecond++;
         updateDisplay();
+        saveGameData();
       } else {
         alert("Not enough clicks to buy clicks per second!");
       }
@@ -91,11 +158,12 @@
     setInterval(() => {
       clicks += clicksPerSecond;
       updateDisplay();
+      saveGameData(); // Сохраняем каждые 1000 мс
     }, 1000); 
+
+    // Загрузка данных при запуске игры
+    loadGameData();
+
   </script>
 </body>
-
-
-<link rel="stylesheet" href="style.css">
-
 </html>
