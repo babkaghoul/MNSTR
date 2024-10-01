@@ -8,16 +8,17 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
             overflow: hidden; /* Блокируем прокрутку всего body */
         }
 
         .tab {
             overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
+            background-color: #ccc; /* Цвет фона для табов */
             display: flex; /* Используем flex для кнопок табов */
             justify-content: space-around; /* Разделяем кнопки равномерно */
+            padding: 10px;
         }
 
         .tab button {
@@ -25,9 +26,9 @@
             border: none;
             outline: none;
             cursor: pointer;
-            padding: 10px 15px;
-            flex-grow: 1; /* Заставляем кнопки занимать одинаковое пространство */
+            padding: 15px 20px;
             transition: background-color 0.3s;
+            font-size: 16px; /* Размер шрифта */
         }
 
         .tab button:hover {
@@ -35,15 +36,28 @@
         }
 
         .tab button.active {
-            background-color: #ccc;
+            background-color: #aaa; /* Подсветка активной вкладки */
         }
 
-        .tabcontent {
-            display: none;
-            padding: 10px;
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin: 10px;
+            text-align: center;
+            width: 120px; /* Ширина карточек */
             border: 1px solid #ccc;
-            border-top: none;
-            background-color: white;
+            display: inline-block;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Центрируем карточки */
+            padding: 20px;
+            max-height: calc(100vh - 100px); /* Ограничение высоты для прокрутки */
+            overflow-y: auto; /* Добавляем прокрутку для контейнера карточек */
         }
 
         .back-button {
@@ -68,13 +82,16 @@
         /* Адаптивные стили */
         @media (max-width: 600px) {
             .tab button {
-                padding: 12px; /* Увеличиваем отступ в мобильной версии */
-                font-size: 14px; /* Меняем размер шрифта */
+                font-size: 14px; /* Размер шрифта */
             }
 
             .back-button {
-                padding: 20px 30px; /* Увеличенные отступы */
-                font-size: 20px; /* Размер шрифта */
+                padding: 15px 20px; /* Уменьшаем отступы */
+                font-size: 18px; /* Размер шрифта */
+            }
+
+            .card {
+                width: 100px; /* Уменьшаем ширину карточек для мобильных устройств */
             }
         }
     </style>
@@ -83,18 +100,43 @@
 <body>
 
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'tab1')">Tab 1</button>
-        <button class="tablinks" onclick="openTab(event, 'tab2')">Tab 2</button>
+        <button class="tablinks active" onclick="openTab(event, 'tab1')">Cards</button>
+        <button class="tablinks" onclick="openTab(event, 'tab2')">Settings</button>
     </div>
 
-    <div id="tab1" class="tabcontent">
-        <h3>Tab 1 Content</h3>
-        <p>This is the content of tab 1.</p>
+    <div id="tab1" class="tabcontent" style="display: block;">
+        <div class="cards-container">
+            <div class="card">
+                <h4>Card 1</h4>
+                <p>Description for Card 1</p>
+            </div>
+            <div class="card">
+                <h4>Card 2</h4>
+                <p>Description for Card 2</p>
+            </div>
+            <div class="card">
+                <h4>Card 3</h4>
+                <p>Description for Card 3</p>
+            </div>
+            <div class="card">
+                <h4>Card 4</h4>
+                <p>Description for Card 4</p>
+            </div>
+            <div class="card">
+                <h4>Card 5</h4>
+                <p>Description for Card 5</p>
+            </div>
+            <div class="card">
+                <h4>Card 6</h4>
+                <p>Description for Card 6</p>
+            </div>
+            <!-- Добавьте больше карточек по желанию -->
+        </div>
     </div>
 
-    <div id="tab2" class="tabcontent">
-        <h3>Tab 2 Content</h3>
-        <p>This is the content of tab 2.</p>
+    <div id="tab2" class="tabcontent" style="display: none;">
+        <h3>Settings Content</h3>
+        <p>This is the content of the settings tab.</p>
     </div>
 
     <!-- Кнопка возврата на index.html -->
@@ -102,17 +144,20 @@
 
     <script>
         function openTab(evt, tabName) {
+            // Скрыть все табcontent
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
 
+            // Удалить класс "active" у всех табов
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
 
+            // Показать активный таб и добавить класс "active"
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
@@ -126,4 +171,5 @@
 </body>
 
 </html>
+
 
