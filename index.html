@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MNSTRS</title>
+  <style>
+    /* Стиль элемента */
+    
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .game-info {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .game-info div {
+      margin-right: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #960000; 
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MNSTRS</h1>
+    <div class="game-info">
+      <div class="level">Level: <span id="level">1</span></div>
+      <div class="clicks">Tap: <span id="clicks">0</span></div>
+      <div class="cps">TPS: <span id="cps">0</span></div>
+    </div>
+    <button id="click-button">Tap</button>
+    <button id="buy-cps-button">Buy TPS (10 clicks)</button>
+  </div>
+
+  <script>
+    let clicks = 0;
+    let level = 1;
+    let clicksPerSecond = 0;
+
+    const clickButton = document.getElementById('click-button');
+    const buyCpsButton = document.getElementById('buy-cps-button');
+    const levelSpan = document.getElementById('level');
+    const clicksSpan = document.getElementById('clicks');
+    const cpsSpan = document.getElementById('cps');
+
+    clickButton.addEventListener('click', () => {
+      clicks++;
+      updateDisplay();
+      checkLevelUp();
+    });
+
+    buyCpsButton.addEventListener('click', () => {
+      if (clicks >= 10) {
+        clicks -= 10;
+        clicksPerSecond++;
+        updateDisplay();
+      } else {
+        alert("Not enough clicks to buy clicks per second!");
+      }
+    });
+
+    function checkLevelUp() {
+      if (clicks >= level * 10) {
+        level++;
+        updateDisplay();
+        alert("Congratulations! You leveled up to level " + level + "!");
+      }
+    }
+
+    function updateDisplay() {
+      levelSpan.textContent = level;
+      clicksSpan.textContent = clicks;
+      cpsSpan.textContent = clicksPerSecond;
+    }
+
+    // Simulate clicks per second
+    setInterval(() => {
+      clicks += clicksPerSecond;
+      updateDisplay();
+    }, 1000); 
+  </script>
+</body>
+
+
+<link rel="stylesheet" href="style.css">
+
+</html>
