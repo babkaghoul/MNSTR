@@ -29,7 +29,8 @@
             background-color: #0056b3;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@latest/dist/supabase.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@latest/dist/supabase.min.js"></script>
+    <script src="supabase.js" defer></script>
 </head>
 <body>
 
@@ -38,29 +39,5 @@
         <button onclick="window.location.href='main.html'">Продолжить</button>
     </div>
 
-    <script>
-        // Замените эти значения на свои данные Supabase
-        const supabaseUrl = 'https://pmujergqrtpzbowthaar.supabase.co'; // Ваш URL Supabase
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdWplcmdxcnRwemJvd3RoYWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3OTQ5OTgsImV4cCI6MjA0MzM3MDk5OH0.7rKSsnLCuep6gwCYhpuszWl9NvX2sHKMWbh7xdcge84'; // Ваш ключ API Supabase
-
-        // Создаем функцию для инициализации Supabase
-        const initSupabase = () => {
-            const supabase = new Supabase(supabaseUrl, supabaseKey);
-
-            // Теперь мы можем использовать supabase!
-            supabase
-                .from('user') // Замените 'users' на название вашей таблицы
-                .select('*')
-                .then(data => {
-                    console.log(data.data); 
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-
-        // Вызываем initSupabase() после загрузки Supabase-JS
-        window.addEventListener('load', initSupabase);
-    </script>
 </body>
 </html>
