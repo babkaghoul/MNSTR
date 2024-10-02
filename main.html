@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+    
+
+<head>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+       
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no">
+        <title>Game Page</title>
+        
+    </head>
+    <body>
+        <h1>Bello!</h1>
+        <!-- ... ваш HTML-код ... -->
+ 
+      
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no">
+    <title>Game Page</title>
+
+
+  
+   
+     
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: azure;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            height: 100vh; /* Full viewport height */
+        }
+
+        .progress-container {
+            width: 80%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 20px;
+            width: 0;
+            background-color: #76c7c0;
+            transition: width 0.3s;
+        }
+
+        .button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            flex-grow: 1;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-button:hover {
+            background-color: #333;
+        }
+
+        .game-info {
+            text-align: center;
+            margin: 20px 0; /* Reduced top margin for better positioning */
+        }
+
+        #click-button {
+            width: 250px; /* Increased width */
+            height: 250px; /* Increased height */
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: none; /* Hidden by default */
+            z-index: 1000;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    
+    
+    
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div class="game-info">
+        <div class="level">Level: <span id="level">1</span></div>
+        <div class="clicks">Tap: <span id="clicks">0</span></div>
+        <div class="cps">TPS: <span id="cps">0</span></div>
+        <img id="click-button" src="mnstr.png" alt="Click Me">
+    </div>
+
+    <div class="button-container">
+        <button class="nav-button" onclick="window.location.href='main.html'">Main Menu</button>
+        <button class="nav-button" onclick="window.location.href='inventory.html'">Inventory</button>
+        <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
+    </div>
+
+    <div class="popup" id="popup">CONGRATS!</div>
+
+    <script>
+        let clicks = 0;
+        let level = 1;
+        let clicksPerSecond = 0;
+        let clicksNeededForNextLevel = 100;
+
+        const clickButton = document.getElementById('click-button');
+        const levelSpan = document.getElementById('level');
+        const clicksSpan = document.getElementById('clicks');
+        const cpsSpan = document.getElementById('cps');
+        const progressBar = document.getElementById('progress-bar');
+        const popup = document.getElementById('popup');
+
+        // Обновление дисплея
+        function updateDisplay() {
+            levelSpan.textContent = level;
+            clicksSpan.textContent = clicks;
+            cpsSpan.textContent = clicksPerSecond;
+            updateProgressBar();
+        }
+
+        // Обновление прогресс-бара
+        function updateProgressBar() {
+            const progressPercentage = (clicks / clicksNeededForNextLevel) * 100;
+            progressBar.style.width = `${Math.min(progressPercentage, 100)}%`;
+
+            if (clicks >= clicksNeededForNextLevel) {
+                levelUp();
+            }
+        }
+
+        function levelUp() {
+            level++;
+            clicksNeededForNextLevel = Math.floor(clicksNeededForNextLevel * 1.5);
+            clicks = 0;
+            updateDisplay();
+            showCongratsPopup(); // Show the popup when leveling up
+        }
+
+        function showCongratsPopup() {
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 2000); // Hide after 2 seconds
+        }
+
+        // Обработчик клика
+        clickButton.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            // Эффект нажатия
+            clickButton.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                clickButton.style.transform = 'scale(1)';
+            }, 100);
+
+            clicks++;
+            updateDisplay();
+        });
+
+        // Обновление кликов в секунду
+        setInterval(() => {
+            clicks += clicksPerSecond;
+            updateDisplay();
+        }, 1000);
+
+        document.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+
+</html>
