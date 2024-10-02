@@ -49,7 +49,7 @@
 
             // Теперь мы можем использовать supabase!
             supabase
-                .from('users') // Замените 'users' на название вашей таблицы
+                .from('user') // Замените 'users' на название вашей таблицы
                 .select('*')
                 .then(data => {
                     console.log(data.data); 
