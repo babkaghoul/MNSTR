@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Перейти на главную</title>
-    
-    <!-- Подключение библиотеки Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.js"></script>
-    
     <style>
         body {
             display: flex;
@@ -33,29 +29,32 @@
             background-color: #0056b3;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@latest/dist/supabase.min.js" defer></script>
 </head>
 <body>
 
     <div>
-        <p>загрузка данных</p>
-        <button id="continue-button">Продолжить</button>
+        <p>Нажмите, чтобы продолжить</p>
+        <button onclick="window.location.href='main.html'">Продолжить</button>
     </div>
 
     <script>
-        // Инициализация Supabase
-        const supabaseUrl = 'https://pmujergqrtpzbowthaar.supabase.co'; // Замените это на ваш URL Supabase
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdWplcmdxcnRwemJvd3RoYWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3OTQ5OTgsImV4cCI6MjA0MzM3MDk5OH0.7rKSsnLCuep6gwCYhpuszWl9NvX2sHKMWbh7xdcge84'; // Замените это на ваш анонимный ключ
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        // Замените эти значения на свои данные Supabase
+        const supabaseUrl = 'https://pmujergqrtpzbowthaar.supabase.co'; // Ваш URL Supabase
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdWplcmdxcnRwemJvd3RoYWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3OTQ5OTgsImV4cCI6MjA0MzM3MDk5OH0.7rKSsnLCuep6gwCYhpuszWl9NvX2sHKMWbh7xdcge84'; // Ваш ключ API Supabase
 
-        // Обработчик нажатия на кнопку
-        document.getElementById('continue-button').onclick = async () => {
-            // Пример вызова Supabase (например, аутентификация, получение данных и т.д.)
-            // await supabase.auth.signIn({ email: 'example@example.com', password: 'password' });
+        const supabase = new Supabase(supabaseUrl, supabaseKey);
 
-            // После выполнения действий с Supabase, перенаправляем на main.html
-            window.location.href = 'main.html';
-        };
+        // Пример использования Supabase:
+        supabase
+            .from('users') // Замените 'users' на название вашей таблицы
+            .select('*')
+            .then(data => {
+                console.log(data.data); // Вывод данных из таблицы в консоль
+            })
+            .catch(error => {
+                console.error(error); // Вывод ошибок в консоль
+            });
     </script>
-
 </body>
 </html>
