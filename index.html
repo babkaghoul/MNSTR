@@ -12,15 +12,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no">
         <title>Game Page</title>
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@latest/dist/supabase.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@latest/dist/supabase.min.js" defer></script>
     </head>
     <body>
         <h1>Bello!</h1>
         <!-- ... ваш HTML-код ... -->
  
         <script>
-            const supabaseUrl = 'https://pmujergqrtpzbowthaar.supabase.co'; 
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdWplcmdxcnRwemJvd3RoYWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3OTQ5OTgsImV4cCI6MjA0MzM3MDk5OH0.7rKSsnLCuep6gwCYhpuszWl9NvX2sHKMWbh7xdcge84';
+            const supabaseUrl = 'https://pmujergqrtpzbowthaar.supabase.co'
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtdWplcmdxcnRwemJvd3RoYWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3OTQ5OTgsImV4cCI6MjA0MzM3MDk5OH0.7rKSsnLCuep6gwCYhpuszWl9NvX2sHKMWbh7xdcge84'
             const supabase = new Supabase(supabaseUrl, supabaseKey);
             supabase
                 .from('whois')
