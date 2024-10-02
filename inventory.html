@@ -1,123 +1,107 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Инвентарь</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Inventory</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
             overflow: hidden; /* Prevent scrolling */
-            background-color: #f0f0f0; /* Светлый фон */
+            background-color: azure;
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            height: 100vh; /* Full viewport height */
         }
 
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 колонки */
-            gap: 5px; /* Уменьшено расстояние между рядами */
-            width: 80%; /* Ширина контейнера карточек */
-            flex-grow: 1; /* Занимает всё доступное пространство */
-            align-self: center; /* Центрирование контейнера карточек */
-            padding: 10px;
+        .inventory-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            flex-grow: 1; /* Allow this container to grow and take available space */
+            overflow-y: auto; /* Enable vertical scroll if necessary */
         }
 
         .card {
-            background-color: #fff;
-            border: 2px solid #9b59b6; /* Фиолетовая рамка */
-            border-radius: 10px; /* Закругленные углы */
-            width: calc(100% - 10px); /* Ширина карточек занимает 100% ячейки с учетом боковых отступов */
-            height: 200px; /* Высота карточек, вытянуты вниз */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 150px;
+            height: 200px;
             display: flex;
-            flex-direction: column; /* Вертикальное расположение элементов */
-            justify-content: center; /* Центрирование элементов по вертикали */
-            padding: 10px; /* Отступы внутри карточки */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Легкая тень */
-            text-align: center; /* Центрируем текст */
-            transition: transform 0.1s; /* Smooth animation effect */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
         }
 
-        .card:active {
-            transform: scale(0.95); /* Scale effect on press */
-        }
-
-        .card-title {
-            font-size: 20px; /* Размер названия карты */
-            font-weight: bold; /* Жирный шрифт */
-            color: #9b59b6; /* Фиолетовый цвет для заголовка */
+        .card:hover {
+            transform: scale(1.05); /* Scale effect on hover */
         }
 
         .button-container {
             display: flex;
             justify-content: space-around;
-            width: 100%;
             padding: 10px;
-            background-color: #f5efef; /* Черный фон для кнопок */
-            position: absolute; /* Кнопки внизу экрана */
-            bottom: 0; /* Прикрепить к нижней части */
-            gap: 10px; /* Space between buttons */
+            background-color: white;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .nav-button {
-            background-color: #000; /* Черный цвет кнопки */
-            color: white; /* Белый текст */
+            background-color: black;
+            color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 15px 20px;
             cursor: pointer;
             flex-grow: 1;
-            margin: 0; /* Remove margins */
+            margin: 0 5px;
             border-radius: 5px;
+            transition: background-color 0.3s;
             font-size: 16px;
-            transition: background-color 0.3s, transform 0.1s; /* Add transition for scale */
         }
 
         .nav-button:hover {
-            background-color: #333; /* Темный оттенок при наведении */
-        }
-
-        .nav-button:active {
-            transform: scale(0.95); /* Scale effect on press */
+            background-color: #333;
         }
     </style>
 </head>
+
 <body>
-    <div class="cards-container">
-        <div class="card" onclick="handleCardClick(1)">
-            <div class="card-title">Карта 1</div>
-        </div>
-        <div class="card" onclick="handleCardClick(2)">
-            <div class="card-title">Карта 2</div>
-        </div>
-        <div class="card" onclick="handleCardClick(3)">
-            <div class="card-title">Карта 3</div>
-        </div>
-        <div class="card" onclick="handleCardClick(4)">
-            <div class="card-title">Карта 4</div>
-        </div>
-        <div class="card" onclick="handleCardClick(5)">
-            <div class="card-title">Карта 5</div>
-        </div>
-        <div class="card" onclick="handleCardClick(6)">
-            <div class="card-title">Карта 6</div>
-        </div>
+    <h1 style="text-align: center;">Inventory</h1>
+
+    <div class="inventory-container">
+        <div class="card">Item 1</div>
+        <div class="card">Item 2</div>
+        <div class="card">Item 3</div>
+        <div class="card">Item 4</div>
+        <div class="card">Item 5</div>
+        <div class="card">Item 6</div>
     </div>
 
     <div class="button-container">
-        <button class="nav-button" onclick="window.location.href='index.html'">Main menu</button>
-        <button class="nav-button" onclick="window.location.href='inventory.html'">Inventory</button>
+        <button class="nav-button" onclick="window.location.href='index.html'">Main Menu</button>
         <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
+        <button class="nav-button" onclick="window.location.href='shop.html'">Shop</button>
     </div>
 
     <script>
-        // Обработчик клика по карточкам
-        function handleCardClick(cardNumber) {
-            console.log(`Карта ${cardNumber} нажата!`);
-            // Логика обработки клика по карточке
-        }
+        // Prevent double-tap zooming on mobile
+        document.addEventListener('touchstart', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        // Optionally add a touchmove event listener to prevent scrolling
+        document.addEventListener('touchmove', function (event) {
+            event.preventDefault();
+        }, { passive: false });
     </script>
 </body>
-</html>
 
+</html>
