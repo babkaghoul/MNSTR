@@ -9,7 +9,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden; /* Prevent scrolling on the body */
             background-color: azure;
             display: flex;
             flex-direction: column; /* Stack items vertically */
@@ -22,7 +22,8 @@
             justify-content: center;
             padding: 20px;
             flex-grow: 1; /* Allow this container to grow and take available space */
-            overflow-y: auto; /* Enable vertical scroll if necessary */
+            overflow-y: auto; /* Enable vertical scroll for the inventory */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         }
 
         .card {
@@ -81,6 +82,7 @@
         <div class="card">Item 4</div>
         <div class="card">Item 5</div>
         <div class="card">Item 6</div>
+        <!-- Add more items if needed -->
     </div>
 
     <div class="button-container">
@@ -97,9 +99,12 @@
             }
         }, { passive: false });
 
-        // Optionally add a touchmove event listener to prevent scrolling
+        // Prevent scrolling on body to ensure Telegram window doesn't collapse
         document.addEventListener('touchmove', function (event) {
-            event.preventDefault();
+            // Prevent default only for the body
+            if (document.body.scrollHeight > window.innerHeight) {
+                event.preventDefault();
+            }
         }, { passive: false });
     </script>
 </body>
