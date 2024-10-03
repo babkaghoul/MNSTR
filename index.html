@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Перейти на главную</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            text-align: center;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: white;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-    
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Перейти на главную</title>
+ <script src="https://telegram.org/js/telegram-web-app.js"></script>
+ <style>
+ body {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ height: 100vh;
+ margin: 0;
+ font-family: Arial, sans-serif;
+ background-color: #f0f0f0;
+ text-align: center;
+ }
+ button {
+ padding: 10px 20px;
+ font-size: 16px;
+ cursor: pointer;
+border: none;
+border-radius: 5px;
+background-color: #007BFF;
+ color: white; 
+ transition: background-color 0.3s;
+ } button:hover 
+ {
+ background-color: #0056b3;
+ }
+ </style>
 </head>
 <body>
+ <div> <p>Нажмите, чтобы продолжить</p>
+ <button onclick="initTelegramAuth()">Продолжить</button>
+ </div>
 
-    <div>
-        <p>Нажмите, чтобы продолжить</p>
-        <button onclick="window.location.href='main.html'">Продолжить</button>
-    </div>
+<script>
+        function initTelegramAuth() {
+            const user = Telegram.WebApp.initDataUnsafe.user; // Get user data
 
+            // Redirect if user data is available
+            if (user) {
+                // User is already authenticated
+                console.log(user); // For debugging purpose
+                window.location.href = 'main.html'; // Redirect to the main page
+            } else {
+                // Authenticate through Telegram
+                /* This part may vary depending on your specific use case. 
+                   You might want to open a special link or redirect to the Telegram login. */
+                alert("Please authenticate with Telegram");
+            }
+        }
+    </script>
 </body>
 </html>
