@@ -1,72 +1,82 @@
-let clicks = 0;
-let level = 1;
-let clicksPerSecond = 0;
+let clicks = localStorage.getItem('clicks') ? parseInt(localStorage.getItem('clicks')) : 0;
+let level = localStorage.getItem('level') ? parseInt(localStorage.getItem('level')) : 1;
+let clicksPerSecond = localStorage.getItem('clicksPerSecond') ? parseInt(localStorage.getItem('clicksPerSecond')) : 0;
+let clicksNeededForNextLevel = localStorage.getItem('clicksNeededForNextLevel') ? parseInt(localStorage.getItem('clicksNeededForNextLevel')) : 100;
 
 const clickButton = document.getElementById('click-button');
-const buyCpsButton = document.getElementById('buy-cps-button');
 const levelSpan = document.getElementById('level');
 const clicksSpan = document.getElementById('clicks');
 const cpsSpan = document.getElementById('cps');
+const progressBar = document.getElementById('progress-bar');
+const popup = document.getElementById('popup');
 
-// Загрузка данных из Local Storage
-function loadGameData() {
-  clicks = parseInt(localStorage.getItem('clicks'), 10) || 0;
-  level = parseInt(localStorage.getItem('level'), 10) || 1;
-  clicksPerSecond = parseInt(localStorage.getItem('clicksPerSecond'), 10) || 0;
-  updateDisplay();
-}
-
-// Сохранение данных в Local Storage
-function saveGameData() {
-  localStorage.setItem('clicks', clicks);
-  localStorage.setItem('level', level);
-  localStorage.setItem('clicksPerSecond', clicksPerSecond);
-}
-
-// Обработка клика
-clickButton.addEventListener('click', () => {
-  clicks++;
-  updateDisplay();
-  checkLevelUp();
-  saveGameData(); // Сохраняем после каждого клика
-});
-
-// Покупка clicksPerSecond
-buyCpsButton.addEventListener('click', () => {
-  if (clicks >= 10) {
-    clicks -= 10;
-    clicksPerSecond++;
-    updateDisplay();
-    saveGameData(); // Сохраняем после покупки
-  } else {
-    alert("Недостаточно кликов для покупки!");
-  }
-});
-
-// Проверка уровня
-function checkLevelUp() {
-  if (clicks >= level * 10) {
-    level++;
-    updateDisplay();
-    alert("Поздравляем! Вы перешли на уровень " + level + "!");
-  }
-}
-
-// Обновление отображения
+// Обновление дисплея
 function updateDisplay() {
-  levelSpan.textContent = level;
-  clicksSpan.textContent = clicks;
-  cpsSpan.textContent = clicksPerSecond;
+    levelSpan.textContent = level;
+    clicksSpan.textContent = clicks;
+    cpsSpan.textContent = clicksPerSecond;
+    updateProgressBar();
 }
 
-// Симуляция clicksPerSecond
+// Обновление прогресс-бара
+function updateProgressBar() {
+    const progressPercentage = (clicks / clicksNeededForNextLevel) * 100;
+    progressBar.style.width = `${Math.min(progressPercentage, 100)}%`;
+
+    if (clicks >= clicksNeededForNextLevel) {
+        levelUp();
+    }
+}
+
+function levelUp() {
+    level++;
+    clicksNeededForNextLevel = Math.floor(clicksNeededForNextLevel * 1.5);
+    clicks = 0;
+    saveData(); // Save data on level up
+    updateDisplay();
+    showCongratsPopup(); // Show the popup when leveling up
+}
+
+function showCongratsPopup() {
+    popup.style.display = 'block';
+    setTimeout(() => {
+        popup.style.display = 'none';
+    }, 2000); // Hide after 2 seconds
+}
+
+// Сохранение данных в localStorage
+function saveData() {
+    localStorage.setItem('clicks', clicks);
+    localStorage.setItem('level', level);
+    localStorage.setItem('clicksPerSecond', clicksPerSecond);
+    localStorage.setItem('clicksNeededForNextLevel', clicksNeededForNextLevel);
+}
+
+// Обработчик клика
+clickButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    // Эффект нажатия
+    clickButton.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+        clickButton.style.transform = 'scale(1)';
+    }, 100);
+
+    clicks++;
+    saveData(); // Save data on click
+    updateDisplay();
+});
+
+// Обновление кликов в секунду
 setInterval(() => {
-  clicks += clicksPerSecond;
-  updateDisplay();
-  saveGameData(); // Сохраняем каждые 1000 мс
-}, 1000); 
+    clicks += clicksPerSecond;
+    saveData(); // Save data on clicks per second
+    updateDisplay();
+}, 1000);
 
-// Загружаем данные при запуске игры
-loadGameData(); 
+document.addEventListener('touchmove', (event) => {
+    event.preventDefault();
+}, { passive: false });
 
-// ... ваш JavaScript код ...
+// Initial display update
+updateDisplay();

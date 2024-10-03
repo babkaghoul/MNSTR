@@ -10,15 +10,14 @@
     <head>
        
         <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no">
-        <title>Game Page</title>
+        <title>Main menu</title>
         
     </head>
     <body>
         <h1>Bello!</h1>
     
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable="no">
-    <title>Game Page</title>
+   
     <link rel="stylesheet" href="main.css">
 </head>
 
@@ -42,77 +41,7 @@
 
     <div class="popup" id="popup">CONGRATS!</div>
 
-    <script>
-        let clicks = 0;
-        let level = 1;
-        let clicksPerSecond = 0;
-        let clicksNeededForNextLevel = 100;
-
-        const clickButton = document.getElementById('click-button');
-        const levelSpan = document.getElementById('level');
-        const clicksSpan = document.getElementById('clicks');
-        const cpsSpan = document.getElementById('cps');
-        const progressBar = document.getElementById('progress-bar');
-        const popup = document.getElementById('popup');
-
-        // Обновление дисплея
-        function updateDisplay() {
-            levelSpan.textContent = level;
-            clicksSpan.textContent = clicks;
-            cpsSpan.textContent = clicksPerSecond;
-            updateProgressBar();
-        }
-
-        // Обновление прогресс-бара
-        function updateProgressBar() {
-            const progressPercentage = (clicks / clicksNeededForNextLevel) * 100;
-            progressBar.style.width = `${Math.min(progressPercentage, 100)}%`;
-
-            if (clicks >= clicksNeededForNextLevel) {
-                levelUp();
-            }
-        }
-
-        function levelUp() {
-            level++;
-            clicksNeededForNextLevel = Math.floor(clicksNeededForNextLevel * 1.5);
-            clicks = 0;
-            updateDisplay();
-            showCongratsPopup(); // Show the popup when leveling up
-        }
-
-        function showCongratsPopup() {
-            popup.style.display = 'block';
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 2000); // Hide after 2 seconds
-        }
-
-        // Обработчик клика
-        clickButton.addEventListener('click', (event) => {
-            event.preventDefault();
-
-            // Эффект нажатия
-            clickButton.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                clickButton.style.transform = 'scale(1)';
-            }, 100);
-
-            clicks++;
-            updateDisplay();
-        });
-
-        // Обновление кликов в секунду
-        setInterval(() => {
-            clicks += clicksPerSecond;
-            updateDisplay();
-        }, 1000);
-
-        document.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-        }, { passive: false });
-      
-    </script>
+    <script src="script.js"></script>
 
 <script src="progress.js"></script>
 
