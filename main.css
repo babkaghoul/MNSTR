@@ -79,7 +79,7 @@ body {
 }
 body {
   
-    background-image: url("C:/Users/bykon/Dekstop/click/fon.jpeg");
+    background-image: url("fon.jpeg");
   
     background-size: cover;
     overflow: hidden; /* Запретить прокрутку */
