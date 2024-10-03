@@ -15,29 +15,13 @@
    
 
     <title>Перейти на главную</title>
-    <script src="server.js"></script>
+    
 
 </head>
 
 
 <body>
-  <div id="content">
-    <!--  Здесь будет отображаться контент мини-приложения после входа -->
-</div>
-
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const userId = urlParams.get('user_id');
-
-  //  Если ID пользователя не найден, перенаправить на страницу входа
-  if (!userId) {
-      window.location.href = 'https://t.me/PokTrainer_bot?start=auth'; // Замените YOUR_BOT_USERNAME на имя вашего бота
-  } else {
-      //  Если ID найден, можно отобразить приветствие или загрузить контент мини-приложения
-      const contentDiv = document.getElementById('content');
-      contentDiv.innerHTML = `Вы авторизованы! User ID: ${userId}`; 
-  }
-</script>
+ 
 
 
     <div>
