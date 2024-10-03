@@ -15,11 +15,29 @@
    
 
     <title>Перейти на главную</title>
+    <script src="server.js"></script>
 
 </head>
 
+
 <body>
-    
+  <div id="content">
+    <!--  Здесь будет отображаться контент мини-приложения после входа -->
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get('user_id');
+
+  //  Если ID пользователя не найден, перенаправить на страницу входа
+  if (!userId) {
+      window.location.href = 'https://t.me/PokTrainer_bot?start=auth'; // Замените YOUR_BOT_USERNAME на имя вашего бота
+  } else {
+      //  Если ID найден, можно отобразить приветствие или загрузить контент мини-приложения
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = `Вы авторизованы! User ID: ${userId}`; 
+  }
+</script>
 
 
     <div>
@@ -29,75 +47,8 @@
         <button onclick="window.location.href='main.html'">Продолжить</button>
 
     </div>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-          apiKey: "AIzaSyAmjCdzGkSORnwYJrM18LB_dyv-kbvlTj0",
-          authDomain: "mnstr-c2789.firebaseapp.com",
-          projectId: "mnstr-c2789",
-          storageBucket: "mnstr-c2789.appspot.com",
-          messagingSenderId: "642711606847",
-          appId: "1:642711606847:web:4077d2f7577f3a6ba90a8a",
-          measurementId: "G-7TW03DK2EC"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        import { getAuth } from "firebase/auth";
-
-const auth = getAuth();
-auth.languageCode = 'it';
-// To apply the default browser preference instead of explicitly setting it.
-// auth.useDeviceLanguage();
-import { getAuth, RecaptchaVerifier } from "firebase/auth";
-
-const auth = getAuth();
-window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
-  'size': 'invisible',
-  'callback': (response) => {
-    // reCAPTCHA solved, allow signInWithPhoneNumber.
-    onSignInSubmit();
-  }
-});
-import { getAuth, signInWithPhoneNumber } from "firebase/auth";
-
-const phoneNumber = getPhoneNumberFromUserInput();
-const appVerifier = window.recaptchaVerifier;
-
-const auth = getAuth();
-signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-    .then((confirmationResult) => {
-      // SMS sent. Prompt user to type the code from the message, then sign the
-      // user in with confirmationResult.confirm(code).
-      window.confirmationResult = confirmationResult;
-      // ...
-    }).catch((error) => {
-      // Error; SMS not sent
-      // ...
-    });
-    grecaptcha.reset(window.recaptchaWidgetId);
-
-// Or, if you haven't stored the widget ID:
-window.recaptchaVerifier.render().then(function(widgetId) {
-  grecaptcha.reset(widgetId);
-});
-
-
-
-
-
-
-
-
-      </script>
+    
+     
       
       
 
