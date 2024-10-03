@@ -6,23 +6,26 @@ const app = express();
 
 const sessions = {}; // Карта сессий
 
-// Обработка команды /start 
+// Обработка команды /start
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.from.id;
 
-  // Проверка, есть ли сессия для этого пользователя
+  // Если сессия для этого пользователя отсутствует, создаем её
   if (!sessions[userId]) {
-    // Создание сессии
     sessions[userId] = {
       id: userId,
       name: msg.from.first_name,
       // ... другие данные пользователя
     };
 
-    bot.sendMessage(chatId, `Привет, ${sessions[userId].name}!`);
-    // Отправка ссылки на мини-приложение
-    bot.sendMessage(chatId, `Для входа в мини-приложение, откройте эту ссылку: https://babkaghoul.github.io/MNSTR/?user_id=${userId}`);
+    bot.sendMessage(chatId, `Привет, ${sessions[userId].name}!`, {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: 'Открыть мини-приложение', url: `https://babkaghoul.github.io/MNSTR/?user_id=${userId}` }]
+        ]
+      }
+    });
   } else {
     // Если сессия уже существует, можно отправить приветствие
     bot.sendMessage(chatId, `Добро пожаловать обратно, ${sessions[userId].name}!`);
@@ -59,6 +62,3 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 3000, () => {
   console.log('Сервер запущен на порту 3000');
 });
-console.log('Получено сообщение: ', msg); // Log the received message
-console.log('User ID: ', userId); // Log the user ID
-console.log('Redirecting to: ', `https://t.me/PokTrainer_bot?start=auth`); // Log the redirection URL
