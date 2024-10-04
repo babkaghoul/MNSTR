@@ -1,0 +1,45 @@
+.shop-button {
+    position: absolute;
+    top: 20px; /* Отступ сверху */
+    right: 20px; /* Отступ справа */
+}
+
+.shop-button a {
+    display: block;
+    width: 50px; /* Ширина кнопки */
+    height: 50px; /* Высота кнопки */
+    background-color: #000000; /* Цвет кнопки */
+    color: white; /* Цвет текста */
+    text-align: center;
+    border-radius: 50%; /* Делает кнопку круглой */
+    line-height: 50px; /* Вертикальное центрирование текста */
+    text-decoration: none; /* Убирает подчеркивание */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Тень */
+}
+
+.shop-button a:hover {
+    background-color: #000000; /* Цвет при наведении */
+}
+.back-button {
+    position: absolute;
+    top: 20px; /* Отступ сверху */
+    left: 20px; /* Отступ слева */
+}
+
+.back-button a {
+    display: block;
+    width: 50px; /* Ширина кнопки */
+    height: 50px; /* Высота кнопки */
+    background-color: #000000; /* Цвет кнопки (красный) */
+    color: white; /* Цвет текста */
+    text-align: center;
+    border-radius: 50%; /* Делает кнопку круглой */
+    line-height: 50px; /* Вертикальное центрирование текста */
+    text-decoration: none; /* Убирает подчеркивание */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Тень */
+    transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+
+.back-button a:hover {
+    background-color: #000000; /* Цвет при наведении */
+}

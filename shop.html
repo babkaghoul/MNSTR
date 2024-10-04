@@ -1,72 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="shop.css"> <!-- Подключите ваш CSS -->
     <title>Shop</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0; 
-        }
-
-        .button-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around; /* Равномерное распределение кнопок */
-            padding: 10px; /* Отступы от края */
-            background-color: white; /* Цвет фона для кнопок */
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Тень для кнопок */
-        }
-
-        .nav-button {
-            background-color: black; /* Черный цвет фона */
-            color: white;
-            border: none;
-            padding: 15px 20px; /* Наполнение кнопок */
-            cursor: pointer;
-            flex-grow: 1; /* Кнопки занимают равное пространство */
-            margin: 0 5px; /* Отступы между кнопками */
-            border-radius: 5px; /* Скругленные углы */
-            transition: background-color 0.3s; /* Плавный переход */
-            font-size: 16px; /* Размер шрифта */
-        }
-
-        .nav-button:hover {
-            background-color: #333; /* Цвет фона при наведении */
-        }
-    </style>
 </head>
-
 <body>
-  
-    <div class="button-container">
-        <button class="nav-button" onclick="window.location.href='main.html'">Main Menu</button>
-        <button class="nav-button" onclick="window.location.href='inventory.html'">Inventory</button>
-        <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
-       
+
+    <!-- Кнопка Back -->
+    <div class="back-button">
+        <a href="javascript:void(0);" id="back-button">Back</a>
     </div>
 
+    <!-- Подключение JavaScript -->
     <script>
-        // Prevent double-tap zooming on mobile
-        document.addEventListener('touchstart', function (event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-
-        // Prevent scrolling on body to ensure Telegram window doesn't collapse
-        document.addEventListener('touchmove', function (event) {
-            if (document.body.scrollHeight > window.innerHeight) {
-                event.preventDefault();
-            }
-        }, { passive: false });
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.history.back();
+        });
     </script>
 </body>
-
 </html>
