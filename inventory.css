@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Arena</title>
-    <style>
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
@@ -40,19 +33,4 @@
         .nav-button:hover {
             background-color: #333; /* Цвет фона при наведении */
         }
-    </style>
-</head>
-
-<body>
-
-    <!-- Основное содержимое страницы идет здесь -->
-
-    <div class="button-container">
-        <button class="nav-button" onclick="window.location.href='main.html'">Main Menu</button>
-        <button class="nav-button" onclick="window.location.href='inventory.html'">Inventory</button>
-        <button class="nav-button" onclick="window.location.href='arena.html'">Arena</button>
-    </div>
-
-</body>
-
-</html>
+   
